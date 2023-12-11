@@ -4,6 +4,7 @@ namespace App;
 
 use MiladRahimi\PhpRouter\Router;
 use App\Controller\AuthController;
+use App\Controller\UserController;
 use App\Controller\PizzaController;
 use Core\Database\DatabaseConfigInterface;
 use MiladRahimi\PhpRouter\Exceptions\RouteNotFoundException;
@@ -71,6 +72,8 @@ class App implements DatabaseConfigInterface
         $this->router->get('/inscription', [AuthController::class, 'registerForm']);
         // route qui recoit le formulaire de creation de compte
         $this->router->post('/register', [AuthController::class, 'register']);
+        // route pour acceder au compte user
+        $this->router->get('/account/{id}', [UserController::class, 'account']);
 
     }
 

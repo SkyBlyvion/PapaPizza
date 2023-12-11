@@ -62,7 +62,7 @@
                                 <li class="custom-link-profil">
                                     <!-- si je suis en session on affiche mon compte-->
                                     <?php if ($auth::isAuth()) : ?>
-                                        <a href="/account">Mon compte
+                                        <a href="/account/<?= $user_id ?>">Mon compte
                                             <img class="custom-svg" src="/assets/images/icon/user.svg" alt="icone utilisateur">
                                         </a>
                                     <?php else : ?>
