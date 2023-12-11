@@ -10,7 +10,7 @@
     <?php endif ?>
 
 
-    <form class="auth-form" action="/login" method="POST">
+    <form class="auth-form" action="/register" method="POST">
         <div class="box-auth-input">
             <label class="detail-description">Adresse email</label>
             <input type="email" class="form-control" name="email">
@@ -20,22 +20,23 @@
             <input type="password" class="form-control" name="password">
         </div>
         <div class="box-auth-input">
+            <label class="detail-description">Confirmer mot de passe</label>
+            <input type="password" class="form-control" name="password_confirm">
+        </div>
+        <div class="box-auth-input">
             <label class="detail-description">Votre nom</label>
-            <input type="password" class="form-control" name="lastname">
+            <input type="text" class="form-control" name="lastname">
         </div>
         <div class="box-auth-input">
             <label class="detail-description">Votre prénom</label>
-            <input type="password" class="form-control" name="firstname">
+            <input type="text" class="form-control" name="firstname">
         </div>
         <div class="box-auth-input">
-            <label class="detail-description">Votre Telephone</label>
-            <input type="password" class="form-control" name="phone">
-        </div>
-        <div class="box-auth-input">
-            <label class="detail-description">Votre Telephone</label>
-            <input type="password" class="form-control" name="phone">
+            <label class="detail-description">Votre téléphone</label>
+            <input type="number" class="form-control" name="phone">
         </div>
         <button type="submit" class="call-action">S'inscrire</button>
     </form>
-    <p class="header-description">Jai deja un compte, <a class="auth-link" href="/connexion">je me connecte</a></p>
+    <p class="header-description">J'ai déjà un compte, <a class="auth-link" href="/connexion">je me connecte</a></p>
+
 </main>

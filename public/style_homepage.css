@@ -69,7 +69,10 @@ body {
 
 /* ici on code la vue mobile */
 /* 1er media query <480px */
-
+header {
+    position: sticky;
+    top: 0;
+}
 
 #topbar {
     display: flex;
