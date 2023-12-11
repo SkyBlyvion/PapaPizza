@@ -17,13 +17,14 @@
 </head>
 
 <body>
-    <!-- si l'utilisateur n'est pas en session on redirige sur connexion -->
     <?php
 
-    use App\AppRepoManager;
+    use Core\Session\Session;
 
-    // if (!$auth::isAuth()) $auth::redirect('/connexion') 
+    if ($auth::isAuth()) $user_id = Session::get(Session::USER)->id;
+
     ?>
+
     <div id="container">
 
         <header>
@@ -59,9 +60,16 @@
                         <nav class="custom-nav-profil">
                             <ul class="custom-ul-profil">
                                 <li class="custom-link-profil">
-                                    <a href="/connexion">Se connecter
-                                        <img class="custom-svg" src="/assets/images/icon/user.svg" alt="icone utilisateur">
-                                    </a>
+                                    <!-- si je suis en session on affiche mon compte-->
+                                    <?php if ($auth::isAuth()) : ?>
+                                        <a href="/account">Mon compte
+                                            <img class="custom-svg" src="/assets/images/icon/user.svg" alt="icone utilisateur">
+                                        </a>
+                                    <?php else : ?>
+                                        <a href="/connexion">Se connecter
+                                            <img class="custom-svg" src="/assets/images/icon/user.svg" alt="icone utilisateur">
+                                        </a>
+                                    <?php endif ?>
                                 </li>
                                 <li class="custom-link-profil end-link">
                                     <a href="#">

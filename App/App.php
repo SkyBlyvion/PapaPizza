@@ -65,6 +65,8 @@ class App implements DatabaseConfigInterface
         $this->router->get('/pizza/{id}', [PizzaController::class, 'getPizzaById']);
         // route pour le formulaire de login
         $this->router->get('/connexion', [AuthController::class, 'loginForm']);
+        // route qui recoit le formulaire de login
+        $this->router->post('/login', [AuthController::class, 'login']);
         // route pour le formulaire d'inscriptiobn
         $this->router->get('/inscription', [AuthController::class, 'registerForm']);
         // route qui recoit le formulaire de creation de compte
