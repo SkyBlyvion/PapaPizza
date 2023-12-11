@@ -72,7 +72,7 @@
                                     <?php endif ?>
                                 </li>
                                 <li class="custom-link-profil end-link">
-                                    <?php if ($auth::isAuth() && $auth::isAdmin($user_id)) : ?>
+                                    <?php if ($auth::isAuth() && $auth::isAdmin()) : ?>
                                         <a href="/admin/home">
                                             <img class="custom-svg" src="/assets/images/icon/admin.svg" alt="icone back-office">
                                         </a>
