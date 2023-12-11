@@ -94,7 +94,7 @@ class AuthController extends Controller
                 }
             }
         }
-        //si on a des erreurson les stock en session et on renvoie vers la page de connexion
+        //si on a des erreurs on les stock en session et on renvoie vers la page de connexion
         if ($form_result->hasErrors()) {
             Session::set(Session::FORM_RESULT, $form_result);
             self::redirect('/connexion');
@@ -174,12 +174,19 @@ class AuthController extends Controller
         var_dump($user);
         Session::set(Session::USER, $user);
         //on redirige veres la page d'accueil
-        // self::redirect('/');
+        self::redirect('/');
     }
 
     //méthode qui permet de vérifier si un user est connecté
     public static function isAuth(): bool
     {
         return !is_null(Session::get(Session::USER));
+    }
+
+    //méthode qui verifie si l'user est administrateur
+    public static function isAdmin(int $id): bool
+    {
+        $user = AppRepoManager::getRm()->getUserRepository()->findUserById($id);
+        return $user->is_admin;
     }
 }

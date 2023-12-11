@@ -73,4 +73,10 @@ class UserRepository extends Repository
         return $this->readById(User::class, $id);
 
     }
+
+    //methode qui recupere un user par son id
+    public function findUserById(int $id): ?User
+    {
+        return $this->readById(User::class, $id);
+    }
 }

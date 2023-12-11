@@ -72,9 +72,16 @@
                                     <?php endif ?>
                                 </li>
                                 <li class="custom-link-profil end-link">
-                                    <a href="#">
-                                        <img class="custom-svg" src="/assets/images/icon/cart.svg" alt="icone panier">
-                                    </a>
+                                    <?php if ($auth::isAuth() && $auth::isAdmin($user_id)) : ?>
+                                        <a href="/admin/home">
+                                            <img class="custom-svg" src="/assets/images/icon/admin.svg" alt="icone back-office">
+                                        </a>
+                                    <?php else : ?>
+
+                                        <a href="#">
+                                            <img class="custom-svg" src="/assets/images/icon/cart.svg" alt="icone panier">
+                                        </a>
+                                    <?php endif ?>
                                 </li>
 
                             </ul>
