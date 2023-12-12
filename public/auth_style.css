@@ -89,10 +89,31 @@
 }
 
 .admin-img-pizza{
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     object-fit: contain;
 
+}
+
+.list-ingredient{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.list-ingredient-input{
+    display: flex;
+    align-items: flex-start;
+    margin: 10px;
+}
+
+.list-size{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 @media screen and (min-width: 768px) {

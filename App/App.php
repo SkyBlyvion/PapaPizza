@@ -65,6 +65,8 @@ class App implements DatabaseConfigInterface
         $this->router->get('/', [PizzaController::class, 'home']);
         $this->router->get('/pizzas', [PizzaController::class, 'getPizzas']);
         $this->router->get('/pizza/{id}', [PizzaController::class, 'getPizzaById']);
+
+
         // route pour le formulaire de login
         $this->router->get('/connexion', [AuthController::class, 'loginForm']);
         // route qui recoit le formulaire de login
@@ -75,10 +77,16 @@ class App implements DatabaseConfigInterface
         $this->router->post('/register', [AuthController::class, 'register']);
         // route pour se déconnecer
         $this->router->get('/logout', [AuthController::class, 'logout']);
+        // route qui recevra les formulaires d'ajout d'un membre d'équipe
+        $this->router->post('/register-team', [AuthController::class, 'registerTeam']);
+
 
         // route pour acceder au compte user
         $this->router->get('/account/{id}', [UserController::class, 'account']);
+
+
         
+
         /* PARTIE BACK OFFICE */
         // route pour acceder a ala page d'administration
         $this->router->get('/admin/home', [AdminController::class, 'home']);
@@ -86,16 +94,15 @@ class App implements DatabaseConfigInterface
         $this->router->get('/admin/team/list', [AdminController::class, 'listTeam']);
         $this->router->get('/admin/pizza/list', [AdminController::class, 'listPizza']);
         $this->router->get('/admin/order/list', [AdminController::class, 'listOrder']);
-
+        //route pour ajouter une pizza
+        $this->router->get('/admin/pizza/add', [AdminController::class, 'addPizza']);
         // route pour ajouter un membre d'équipe
         $this->router->get('/admin/team/add', [AdminController::class, 'addTeam']);
-        
-        // route qui recevra les formulaires d'ajout d'un membre d'équipe
-        $this->router->post('/register-team', [AuthController::class, 'registerTeam']);
-
-
-        //route pour "supprimer" un user
+         //route pour "supprimer" un user
         $this->router->get('/admin/user/delete/{id}', [AdminController::class, 'deleteUser']);
+        //route qui receptionne le formulaire d'ajout d'une pizza
+        $this->router->post('/add-pizza-form', [AdminController::class, 'addPizzaForm']);
+       
     }
 
     //3: méthode qui va démarrer le router

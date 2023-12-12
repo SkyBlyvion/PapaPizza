@@ -124,5 +124,26 @@ class AdminController extends Controller
         $view->render($view_data);
     }
 
+    //méthode qui retourne le formulauire d'ajout d'une pizza
+    public function addPizza()
+    {
+        $view_data = [
+            //permet de recupérer les message d'erreurs du formulaire (s'il y en a)
+            'form_result' => Session::get(Session::FORM_RESULT)
+        ];
+        // on va instancier une vue
+        $view = new View('admin/add-pizza');
 
+        $view->render($view_data);
+
+    }
+
+    //méthode qui receoit le formulaire pizza
+    public function addPizzaForm(ServerRequest $request)
+    {
+        $post_data = $request->getParsedBody();
+        $file_data = $request->getUploadedFiles();
+        var_dump($file_data);
+        var_dump($post_data);
+    }
 }

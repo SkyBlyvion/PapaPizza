@@ -13,7 +13,7 @@ class IngredientRepository extends Repository
     }
 
     //méthode qui recupére la liste des ingredient actifs
-    public function getIngredientActive()
+    public function getIngredientActive() : array
     {
         //on déclare un tableau vide
         $array_result = [];
