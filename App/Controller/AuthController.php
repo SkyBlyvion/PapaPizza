@@ -103,6 +103,7 @@ class AuthController extends Controller
         //si tout est OK on stock l'utilisateur en session et on le redirige vers la page d'accueil
         $user->password = '';
         Session::set(Session::USER, $user);
+        Session::remove(Session::FORM_RESULT);
         self::redirect('/');
     }
 
@@ -125,7 +126,7 @@ class AuthController extends Controller
         $data_form = $request->getParsedBody();
         $form_result = new FormResult();
         $user = new User();
-        // var_dump($data_form);
+        // var_dump($data_form); die;
 
         // on verifie que tous les champs sont remplis
         if (
@@ -173,8 +174,64 @@ class AuthController extends Controller
         $user->password = '';
         var_dump($user);
         Session::set(Session::USER, $user);
+        Session::remove(Session::FORM_RESULT);
         //on redirige veres la page d'accueil
         self::redirect('/');
+    }
+
+    // methode qui receptionne les données du formulaire d'inscription
+    public function registerTeam(ServerRequest $request)
+    {
+        $data_form = $request->getParsedBody();
+        $form_result = new FormResult();
+        $user = new User();
+        // var_dump($data_form);
+
+        // on verifie que tous les champs sont remplis
+        if (
+            empty($data_form['email']) ||
+            empty($data_form['password']) ||
+            empty($data_form['password_confirm']) ||
+            empty($data_form['lastname']) ||
+            empty($data_form['firstname']) ||
+            empty($data_form['phone'])
+        ) {
+            $form_result->addError(new FormError('Veuillez renseigner tous les champs'));
+            // on verifire que les mots de passe correspondent
+        } else if ($data_form['password'] !== $data_form['password_confirm']) {
+            // on verifie que l'email est valide
+            $form_result->addError(new FormError('Les mots de passe ne correspondent pas'));
+            // on verifie que le mot de passe est valide
+        } else if (!$this->validEmail($data_form['email'])) {
+            $form_result->addError(new FormError('L\'email n\'est pas valide'));
+        } else if (!$this->validPassword($data_form['password'])) {
+            $form_result->addError(new FormError('Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre'));
+            // on verifie que l'email n'est pas deja utilisé
+        } else if ($this->userExist($data_form['email'])) {
+            $form_result->addError(new FormError('L\'email existe déja'));
+        } else {
+            // on peut enregistrer notre nouvel user
+            $data_user = [
+                'email' => strtolower($this->validInput($data_form['email'])),
+                'password' => password_hash($this->validInput($data_form['password']), PASSWORD_BCRYPT),
+                'lastname' => $this->validInput($data_form['lastname']),
+                'firstname' => $this->validInput($data_form['firstname']),
+                'phone' => $this->validInput($data_form['phone'])
+            ];
+
+            $user = AppRepoManager::getRm()->getUserRepository()->addTeam($data_user);
+        }
+
+        // s'il y a des erreurs, on les stocke en session et on redirige vers la page de formualire d'inscription
+        if ($form_result->hasErrors()) {
+            Session::set(Session::FORM_RESULT, $form_result);
+            self::redirect('/admin/team/add');
+        }
+
+
+        //on redirige vers la liste des memnres d'equipe
+        Session::remove(Session::FORM_RESULT);
+        self::redirect('/admin/team/list');
     }
 
     //méthode qui permet de vérifier si un user est connecté
@@ -194,8 +251,7 @@ class AuthController extends Controller
     {
         //on détruit la Session
         Session::remove(Session::USER);
-        // on redirige vers la page accueil
+        // on redirige vers la page
         self::redirect('/');
-
     }
 }

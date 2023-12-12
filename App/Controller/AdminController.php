@@ -62,9 +62,15 @@ class AdminController extends Controller
         // on vérifie que l'user est admin on verifie que l'user est cnnecté
         if (!AuthController::isAuth() || !AuthController::isAdmin()) self::redirect('/');
 
+
+        $view_data = [
+            'pizzas' => AppRepoManager::getRm()->getPizzaRepository()->getAllPizzasWithInfo(),
+            'form_result' => Session::get(Session::FORM_RESULT)
+        ];
+
         $view = new View('admin/list-pizza');
 
-        $view->render();
+        $view->render($view_data);
     }
 
     // liste des commandes
@@ -98,6 +104,7 @@ class AdminController extends Controller
             self::redirect('/admin/user/list');
         }
         // si tout est  ok on redirife vers la liste des user
+        Session::remove(Session::FORM_RESULT);
         self::redirect('/admin/user/list');
     }
 
@@ -117,12 +124,5 @@ class AdminController extends Controller
         $view->render($view_data);
     }
 
-    // methode qui recoit le formulaire vers la liste
-    public function registerTeam(ServerRequest $request)
-    {
-        // on vérifie que l'user est admin on verifie que l'user est cnnecté
-        if (!AuthController::isAuth() || !AuthController::isAdmin()) self::redirect('/');
-        $post_data = $request->getParsedBody();
-        var_dump($post_data);
-    }
+
 }

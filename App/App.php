@@ -89,8 +89,9 @@ class App implements DatabaseConfigInterface
 
         // route pour ajouter un membre d'équipe
         $this->router->get('/admin/team/add', [AdminController::class, 'addTeam']);
+        
         // route qui recevra les formulaires d'ajout d'un membre d'équipe
-        $this->router->post('/register-team', [AdminController::class, 'registerTeam']);
+        $this->router->post('/register-team', [AuthController::class, 'registerTeam']);
 
 
         //route pour "supprimer" un user
