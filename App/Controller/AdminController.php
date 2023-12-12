@@ -9,6 +9,7 @@ use Core\Form\FormResult;
 use Core\Session\Session;
 use Core\Controller\Controller;
 use App\Controller\AuthController;
+use Laminas\Diactoros\ServerRequest;
 
 class AdminController extends Controller
 {
@@ -80,13 +81,15 @@ class AdminController extends Controller
     //on désactive un user
     public function deleteUser(int $id)
     {
+        // on vérifie que l'user est admin on verifie que l'user est cnnecté
+        if (!AuthController::isAuth() || !AuthController::isAdmin()) self::redirect('/');
+
         $form_result = new FormResult();
         // on apelle la méthode qui désactive un user. vient de UserRepository.php
         $deleteUser = AppRepoManager::getRm()->getUserRepository()->deleteUser($id);
         // si la méthode renvoie false on stock un message d'erreur
         if (!$deleteUser) {
             $form_result->addError(new FormError('Erreur lors de la suppression de l\'utilisateur'));
-            
         }
 
         // si il y a des erreurs on les enregistre en session
@@ -96,5 +99,30 @@ class AdminController extends Controller
         }
         // si tout est  ok on redirife vers la liste des user
         self::redirect('/admin/user/list');
+    }
+
+    //méthode qui retourne le formulaire d'ajout d'un membre d'équipe
+    public function addTeam()
+    {
+        // on vérifie que l'user est admin on verifie que l'user est cnnecté
+        if (!AuthController::isAuth() || !AuthController::isAdmin()) self::redirect('/');
+        
+        $view = new View('admin/add-team');
+
+        $view_data = [
+            //permet de recupérer les message d'erreurs du formulaire (s'il y en a)
+            'form_result' => Session::get(Session::FORM_RESULT)
+        ];
+
+        $view->render($view_data);
+    }
+
+    // methode qui recoit le formulaire vers la liste
+    public function registerTeam(ServerRequest $request)
+    {
+        // on vérifie que l'user est admin on verifie que l'user est cnnecté
+        if (!AuthController::isAuth() || !AuthController::isAdmin()) self::redirect('/');
+        $post_data = $request->getParsedBody();
+        var_dump($post_data);
     }
 }

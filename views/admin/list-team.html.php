@@ -3,6 +3,10 @@
 use Core\Session\Session; ?>
 <div class="admin-container">
     <h1 class="title">L'équipe</h1>
+    <!-- bouton pour ajouter un nouveau membre -->
+    <div class="admin-box-add">
+        <a class="call-action" href="/admin/team/add" class="btn btn-primary">Ajouter un membre</a>
+    </div>
     <!-- on va afficher les erreurs s'il y en a -->
     <?php if ($form_result && $form_result->hasErrors()) : ?>
         <div class="alert alert-danger" role="alert">

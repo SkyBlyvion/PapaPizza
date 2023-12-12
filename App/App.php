@@ -87,6 +87,12 @@ class App implements DatabaseConfigInterface
         $this->router->get('/admin/pizza/list', [AdminController::class, 'listPizza']);
         $this->router->get('/admin/order/list', [AdminController::class, 'listOrder']);
 
+        // route pour ajouter un membre d'équipe
+        $this->router->get('/admin/team/add', [AdminController::class, 'addTeam']);
+        // route qui recevra les formulaires d'ajout d'un membre d'équipe
+        $this->router->post('/register-team', [AdminController::class, 'registerTeam']);
+
+
         //route pour "supprimer" un user
         $this->router->get('/admin/user/delete/{id}', [AdminController::class, 'deleteUser']);
     }
