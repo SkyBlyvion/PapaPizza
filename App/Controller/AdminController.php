@@ -30,7 +30,8 @@ class AdminController extends Controller
         if (!AuthController::isAuth() || !AuthController::isAdmin()) self::redirect('/');
 
         $data_view = [
-            'users' => AppRepoManager::getRm()->getUserRepository()->getAllClientsActif()
+            'users' => AppRepoManager::getRm()->getUserRepository()->getAllClientsActif(),
+            'form_result' => Session::get(Session::FORM_RESULT)
         ];
 
         $view = new View('admin/list-user');
@@ -44,9 +45,14 @@ class AdminController extends Controller
         // on vérifie que l'user est admin on verifie que l'user est cnnecté
         if (!AuthController::isAuth() || !AuthController::isAdmin()) self::redirect('/');
 
+        $data_view = [
+            'users' => AppRepoManager::getRm()->getUserRepository()->getAllTeamActif(),
+            'form_result' => Session::get(Session::FORM_RESULT)
+        ];
+
         $view = new View('admin/list-team');
 
-        $view->render();
+        $view->render($data_view);
     }
 
     // liste des pizzas

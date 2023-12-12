@@ -103,6 +103,30 @@ class UserRepository extends Repository
         return $users;
     }
 
+        //methode qui recupere tous les employées qui sont actifs
+        public function getAllTeamActif(): array
+        {
+            // on déclare un tableau vide
+            $users = [];
+            // on crée la requête
+            $query = sprintf(
+                'SELECT * FROM %s WHERE is_admin = 1 AND is_active = 1',
+                $this->getTableName()
+            );
+            // on peut directement executer la requete
+            $stmt = $this->pdo->query($query);
+    
+            //on vérifie que la requete est bien exceuter
+            if (!$stmt) return $users;
+    
+            // on recupere les resultats
+            while ($result = $stmt->fetch()) {
+                $users[] = new User($result);
+            }
+    
+            return $users;
+        }
+
     //methode qui désactive un user
     public function deleteUser(int $id) : bool
     {

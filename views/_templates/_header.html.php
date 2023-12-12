@@ -83,7 +83,13 @@
                                         </a>
                                     <?php endif ?>
                                 </li>
-
+                                <?php if ($auth::isAuth()) : ?>
+                                    <li class="custom-link-profil end-link">
+                                        <a href="/logout">
+                                            <img class="logout custom-svg" src="/assets/images/icon/logout.svg" alt="icone logout">
+                                        </a>
+                                    </li>
+                                <?php endif ?>
                             </ul>
                         </nav>
                     </div>

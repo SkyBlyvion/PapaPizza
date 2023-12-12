@@ -73,9 +73,12 @@ class App implements DatabaseConfigInterface
         $this->router->get('/inscription', [AuthController::class, 'registerForm']);
         // route qui recoit le formulaire de creation de compte
         $this->router->post('/register', [AuthController::class, 'register']);
+        // route pour se déconnecer
+        $this->router->get('/logout', [AuthController::class, 'logout']);
+
         // route pour acceder au compte user
         $this->router->get('/account/{id}', [UserController::class, 'account']);
-
+        
         /* PARTIE BACK OFFICE */
         // route pour acceder a ala page d'administration
         $this->router->get('/admin/home', [AdminController::class, 'home']);

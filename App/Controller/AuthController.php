@@ -189,4 +189,13 @@ class AuthController extends Controller
         return Session::get(Session::USER)->is_admin;
     }
 
+    //méthode pour se déconnecter
+    public function logout()
+    {
+        //on détruit la Session
+        Session::remove(Session::USER);
+        // on redirige vers la page accueil
+        self::redirect('/');
+
+    }
 }
