@@ -41,7 +41,7 @@ class UserRepository extends Repository
     }
 
     //methode qui ajoute un user
-    public function addUser(array $data) : ?User
+    public function addUser(array $data): ?User
     {
         $data_more = [
             'is_admin' => 0,
@@ -61,7 +61,7 @@ class UserRepository extends Repository
         $stmt = $this->pdo->prepare($query);
 
         // on verifie que la requete est bien preparée
-        if(!$stmt) return null;
+        if (!$stmt) return null;
 
         //on execute la requete
         $stmt->execute($data);
@@ -71,7 +71,6 @@ class UserRepository extends Repository
 
         // on recupere l'user grace a cet id
         return $this->readById(User::class, $id);
-
     }
 
     //methode qui recupere un user par son id
@@ -80,10 +79,46 @@ class UserRepository extends Repository
         return $this->readById(User::class, $id);
     }
 
-    //methode qui recupere tous les users
-    public function findAllUsers(): array
+    //methode qui recupere tous les user qui ne sonts pas admin et qui sont actifs
+    public function getAllClientsActif(): array
     {
-        return $this->readAll(User::class);
-        var_dump()
+        // on déclare un tableau vide
+        $users = [];
+        // on crée la requête
+        $query = sprintf(
+            'SELECT * FROM %s WHERE is_admin = 0 AND is_active = 1',
+            $this->getTableName()
+        );
+        // on peut directement executer la requete
+        $stmt = $this->pdo->query($query);
+
+        //on vérifie que la requete est bien exceuter
+        if (!$stmt) return $users;
+
+        // on recupere les resultats
+        while ($result = $stmt->fetch()) {
+            $users[] = new User($result);
+        }
+
+        return $users;
+    }
+
+    //methode qui désactive un user
+    public function deleteUser(int $id) : bool
+    {
+        // on crée la requête
+        $query = sprintf(
+            'UPDATE %s SET `is_active` = 0 WHERE `id` = :id',
+            $this->getTableName()
+        );
+
+        // on prépare la reqûete
+        $stmt = $this->pdo->prepare($query);
+
+        // on verifie que la requete est bvien prepapree
+        if(!$stmt) return false;
+
+        // on execute la requête si la requete est passée on retourne true sinon false
+        return $stmt->execute(['id' => $id]);
     }
 }
