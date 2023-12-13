@@ -4,7 +4,7 @@ use App\AppRepoManager;
 use Core\Session\Session; ?>
 
 <main class="container-form">
-    <h1 class="title">Nouveau membre</h1>
+    <h1 class="title">Nouvelle Pizza</h1>
     <!-- on va afficher les erreurs s'il y en a -->
     <?php if ($form_result && $form_result->hasErrors()) : ?>
         <div class="alert alert-danger" role="alert">

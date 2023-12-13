@@ -63,4 +63,26 @@ class PriceRepository extends Repository
         // on retourne le tableau rempli
         return $array_result;
     }
+
+    //méthode pour créer un prix
+    public function insertPrice(array $data):bool
+    {
+        //on crée la requete
+        $query = sprintf(
+            'INSERT INTO %1$s (`price`, `size_id`, `pizza_id`)
+            VALUES (:price, :size_id, :pizza_id)',
+            $this->getTableName()
+        );
+
+        //on prepare la requete
+        $stmt = $this->pdo->prepare($query);
+
+        //on verifie que le requete est bien preparée
+        if(!$stmt) return false;
+
+        //on execute le requete en bindant les paramètres
+        $stmt->execute($data);
+
+        return $stmt->rowCount() > 0;
+    }
 }
