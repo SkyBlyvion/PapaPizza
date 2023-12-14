@@ -71,15 +71,26 @@ class App implements DatabaseConfigInterface
         $this->router->get('/connexion', [AuthController::class, 'loginForm']);
         // route qui recoit le formulaire de login
         $this->router->post('/login', [AuthController::class, 'login']);
+
         // route pour le formulaire d'inscriptiobn
         $this->router->get('/inscription', [AuthController::class, 'registerForm']);
         // route qui recoit le formulaire de creation de compte
         $this->router->post('/register', [AuthController::class, 'register']);
+
         // route pour se déconnecer
         $this->router->get('/logout', [AuthController::class, 'logout']);
+
         // route qui recevra les formulaires d'ajout d'un membre d'équipe
         $this->router->post('/register-team', [AuthController::class, 'registerTeam']);
 
+
+        // route pour le formulaire de modification du profil
+        $this->router->get('/user/update/user/{id}', [UserController::class, 'updateUser']);
+        //route qui recevra le formumlaire de modification du profil
+        $this->router->post('/updated-user', [UserController::class, 'updatedUser']);
+
+        //route pour "supprimer" un user
+        $this->router->get('/user/user/delete/{id}', [UserController::class, 'deleteUser']);
 
         // route pour acceder au compte user
         $this->router->get('/account/{id}', [UserController::class, 'account']);
@@ -98,7 +109,7 @@ class App implements DatabaseConfigInterface
         $this->router->get('/admin/pizza/add', [AdminController::class, 'addPizza']);
         // route pour ajouter un membre d'équipe
         $this->router->get('/admin/team/add', [AdminController::class, 'addTeam']);
-         //route pour "supprimer" un user
+        //route pour "supprimer" un user
         $this->router->get('/admin/user/delete/{id}', [AdminController::class, 'deleteUser']);
         //route qui receptionne le formulaire d'ajout d'une pizza
         $this->router->post('/add-pizza-form', [AdminController::class, 'addPizzaForm']);

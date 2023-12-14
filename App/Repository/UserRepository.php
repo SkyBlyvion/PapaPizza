@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Model\User;
+use Core\Session\Session;
 use Core\Repository\Repository;
 
 class UserRepository extends Repository
@@ -178,4 +179,30 @@ class UserRepository extends Repository
         // on execute la requête si la requete est passée on retourne true sinon false
         return $stmt->execute(['id' => $id]);
     }
+
+    //methode qui permet a un user de modifier ses informations
+    public function updateUser(array $data): bool
+    { 
+        var_dump($data);
+        // on crée la requête
+        $query = sprintf(
+            'UPDATE %s SET `email` = :email, `lastname` = :lastname, `firstname` = :firstname, `phone` = :phone WHERE `id` = :id',
+            // "UPDATE %s SET firstname = 'toto' WHERE `id` = :id",
+            $this->getTableName()
+        );
+        var_dump($query);
+        // on prépare la requête
+        $stmt = $this->pdo->prepare($query);
+
+        // on vérifie que la requête est bien préparée
+        if (!$stmt) {
+            return false;
+        }
+       
+        // on execute la requête
+        // $data['id'] = $id;
+        return $stmt->execute($data);
+
+    }
+
 }

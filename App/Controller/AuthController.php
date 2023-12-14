@@ -234,6 +234,58 @@ class AuthController extends Controller
         self::redirect('/admin/team/list');
     }
 
+    //méthode qui receptionne les données du formulaire de modification de profil
+    // methode qui receptionne les données du formulaire d'inscription
+    public function updatedUser(ServerRequest $request)
+    {
+        $data_form = $request->getParsedBody();
+        $form_result = new FormResult();
+        $user = new User();
+        // var_dump($data_form);
+
+        // on verifie que tous les champs sont remplis
+        if (
+            empty($data_form['email']) ||
+            empty($data_form['password']) ||
+            empty($data_form['password_confirm']) ||
+            empty($data_form['lastname']) ||
+            empty($data_form['firstname']) ||
+            empty($data_form['phone'])
+        ) {
+            $form_result->addError(new FormError('Veuillez renseigner tous les champs'));
+            // on verifire que les mots de passe correspondent
+        } else if ($data_form['password'] !== $data_form['password_confirm']) {
+            // on verifie que l'email est valide
+            $form_result->addError(new FormError('Les mots de passe ne correspondent pas'));
+            // on verifie que le mot de passe est valide
+        } else if (!$this->validEmail($data_form['email'])) {
+            $form_result->addError(new FormError('L\'email n\'est pas valide'));
+        } else if (!$this->validPassword($data_form['password'])) {
+            $form_result->addError(new FormError('Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre'));
+        } else {
+            // on peut enregistrer nos modifications
+            $data_user = [
+                'email' => strtolower($this->validInput($data_form['email'])),
+                'password' => password_hash($this->validInput($data_form['password']), PASSWORD_BCRYPT),
+                'lastname' => $this->validInput($data_form['lastname']),
+                'firstname' => $this->validInput($data_form['firstname']),
+                'phone' => $this->validInput($data_form['phone'])
+            ];
+
+            $user = AppRepoManager::getRm()->getUserRepository()->addTeam($data_user);
+        }
+
+        // s'il y a des erreurs, on les stocke en session et on redirige vers la page de modification
+        // if ($form_result->hasErrors()) {
+        //     Session::set(Session::FORM_RESULT, $form_result);
+        //     self::redirect('/user/update/user');
+        // }
+
+
+        //on redirige vers le compte user
+        self::redirect('/user/account');
+    }
+
     //méthode qui permet de vérifier si un user est connecté
     public static function isAuth(): bool
     {

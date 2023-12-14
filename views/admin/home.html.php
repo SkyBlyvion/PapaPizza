@@ -3,7 +3,7 @@
     <div class="box-admin">
         <div class="box-admin-content">
             <h2 class="sub-title">Gestion des clients</h2>
-            <div class="box-admin-link"><a href="/admin/user/list" class="call-action">Liste des cliente=s</a></div>
+            <div class="box-admin-link"><a href="/admin/user/list" class="call-action">Liste des clients</a></div>
         </div>
         <div class="box-admin-content">
             <h2 class="sub-title">Gestion de l'équipe</h2>
