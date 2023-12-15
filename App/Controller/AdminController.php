@@ -124,7 +124,7 @@ class AdminController extends Controller
         $view->render($view_data);
     }
 
-    //méthode qui retourne le formulauire d'ajout d'une pizza
+    //méthode qui retourne le formulaire d'ajout d'une pizza
     public function addPizza()
     {
         $view_data = [

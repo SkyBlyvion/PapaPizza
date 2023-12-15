@@ -56,7 +56,7 @@ class PizzaRepository extends Repository
                 FROM %1$s AS p
                 INNER JOIN %2$s AS u ON p.`user_id`=u.`id`
                 WHERE p.`is_active`=1 
-                AND u.`is_admin`=1',
+                AND u.`is_admin`=0',
             $this->getTableName(),
             AppRepoManager::getRm()->getUserRepository()->getTableName()
         );
@@ -144,4 +144,28 @@ class PizzaRepository extends Repository
         // on retourne la pizza
         return $this->getPizzaById($pizza_id);
     }
+
+    // // methode pour ajouter pizza au compte
+    // public function addPizzaToUser(int $user_id, int $pizza_id): bool
+    // {
+    //     //on crée la requête
+    //     $query = sprintf(
+    //         'UPDATE %s SET `user_id`=:user_id WHERE `id`=:pizza_id',
+    //         $this->getTableName()
+    //     );
+
+    //     //on prepare la requête
+    //     $stmt = $this->pdo->prepare($query);
+
+    //     //on verifie que la requête s'est bien preparée
+    //     if(!$stmt) return false;
+
+    //     //on execute la requête bindant les parametres
+    //     $stmt->execute(['user_id' => $user_id, 'pizza_id' => $pizza_id]);
+
+    //     return true;
+
+
+
+    // }
 }

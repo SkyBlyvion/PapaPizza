@@ -84,6 +84,7 @@ class App implements DatabaseConfigInterface
         $this->router->post('/register-team', [AuthController::class, 'registerTeam']);
 
 
+        /* PARTIE UTILISATEUR */
         // route pour le formulaire de modification du profil
         $this->router->get('/user/update/user/{id}', [UserController::class, 'updateUser']);
         //route qui recevra le formumlaire de modification du profil
@@ -91,9 +92,13 @@ class App implements DatabaseConfigInterface
 
         //route pour "supprimer" un user
         $this->router->get('/user/user/delete/{id}', [UserController::class, 'deleteUser']);
-
         // route pour acceder au compte user
         $this->router->get('/account/{id}', [UserController::class, 'account']);
+
+        //route pour la création de pizza par user
+        $this->router->get('/user/create-pizza/{id}', [PizzaController::class, 'createPizza']);
+        // route qui recevra le formulaire de creation de pizza
+        $this->router->post('/user/create-pizza', [PizzaController::class, 'createPizzaForm']);
 
 
         
