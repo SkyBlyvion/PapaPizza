@@ -85,14 +85,14 @@ class AdminController extends Controller
     }
 
     //on désactive un user
-    public function deleteUser(int $id)
+    public function deleteUserAdmin(int $id)
     {
         // on vérifie que l'user est admin on verifie que l'user est cnnecté
         if (!AuthController::isAuth() || !AuthController::isAdmin()) self::redirect('/');
 
         $form_result = new FormResult();
         // on apelle la méthode qui désactive un user. vient de UserRepository.php
-        $deleteUser = AppRepoManager::getRm()->getUserRepository()->deleteUser($id);
+        $deleteUser = AppRepoManager::getRm()->getUserRepository()->deleteUserAdmin($id);
         // si la méthode renvoie false on stock un message d'erreur
         if (!$deleteUser) {
             $form_result->addError(new FormError('Erreur lors de la suppression de l\'utilisateur'));
@@ -101,11 +101,31 @@ class AdminController extends Controller
         // si il y a des erreurs on les enregistre en session
         if ($form_result->hasErrors()) {
             Session::set(Session::FORM_RESULT, $form_result);
-            self::redirect('/admin/user/list');
+            self::redirect('/admin/team/list');
         }
         // si tout est  ok on redirife vers la liste des user
         Session::remove(Session::FORM_RESULT);
-        self::redirect('/admin/user/list');
+        self::redirect('/admin/team/list');
+    }
+
+    //méthode qui supprime une pizza
+    public function deletePizza(int $id)
+    {
+        // on vérifie que l'user est admin on verifie que l'user est cnnecté
+        if (!AuthController::isAuth() || !AuthController::isAdmin()) self::redirect('/');
+
+        $form_result = new FormResult();
+        // on apelle la méthode qui supprime une pizza. vient de PizzaRepository.php
+        $deletePizza = AppRepoManager::getRm()->getPizzaRepository()->deletePizza($id);
+        // si la méthode renvoie false on stock un message d'erreur
+        if (!$deletePizza) {
+            $form_result->addError(new FormError('Erreur lors de la suppression de la pizza'));
+        }
+
+        // si il y a des erreurs on les enregistre en session
+        if ($form_result->hasErrors()) {
+            Session::set(Session::FORM_RESULT, $form_result);
+        }
     }
 
     //méthode qui retourne le formulaire d'ajout d'un membre d'équipe

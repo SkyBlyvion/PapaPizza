@@ -92,6 +92,7 @@ class App implements DatabaseConfigInterface
 
         //route pour "supprimer" un user
         $this->router->get('/user/user/delete/{id}', [UserController::class, 'deleteUser']);
+        
         // route pour acceder au compte user
         $this->router->get('/account/{id}', [UserController::class, 'account']);
 
@@ -115,7 +116,7 @@ class App implements DatabaseConfigInterface
         // route pour ajouter un membre d'équipe
         $this->router->get('/admin/team/add', [AdminController::class, 'addTeam']);
         //route pour "supprimer" un user
-        $this->router->get('/admin/user/delete/{id}', [AdminController::class, 'deleteUser']);
+        $this->router->get('/admin/user/delete/{id}', [AdminController::class, 'deleteUserAdmin']);
         //route qui receptionne le formulaire d'ajout d'une pizza
         $this->router->post('/add-pizza-form', [AdminController::class, 'addPizzaForm']);
        

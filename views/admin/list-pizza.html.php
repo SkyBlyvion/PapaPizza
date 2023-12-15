@@ -1,5 +1,6 @@
 <?php
 
+use App\AppRepoManager;
 use Core\Session\Session; ?>
 <div class="admin-container">
     <h1 class="title">Les Pizzas</h1>
@@ -25,6 +26,7 @@ use Core\Session\Session; ?>
             </tr>
         </thead>
         <tbody>
+            <?php $pizzas = AppRepoManager::getRm()->getPizzaRepository()->getAllPizzasById(); ?>
             <?php foreach ($pizzas as $pizza) : ?>
                 <tr>
                     <td class="footer-description"><?= $pizza->name ?></td>
@@ -32,14 +34,14 @@ use Core\Session\Session; ?>
                         <img class="admin-img-pizza" src="/assets/images/pizza/<?= $pizza->image_path ?>" alt="<?= $pizza->name ?>">
                     </td>
                     <td class="footer-description">
-                        <?php foreach($pizza->prices as $price) : ?>
-                            <p><?= $price->size->label ?> : <?= number_format($price->price, 2,',','') ?> €</p>
-                            <?php endforeach ?>
+                        <?php foreach ($pizza->prices as $price) : ?>
+                            <p><?= $price->size->label ?> : <?= number_format($price->price, 2, ',', '') ?> €</p>
+                        <?php endforeach ?>
                     </td>
                     <td class="footer-description">
-                        <?php foreach($pizza->ingredients as $ingredient) : ?>
+                        <?php foreach ($pizza->ingredients as $ingredient) : ?>
                             <p><?= $ingredient->label ?></p>
-                            <?php endforeach ?>
+                        <?php endforeach ?>
                     </td>
                     <td class="footer-description">
                         <a onclick="return confirm('Voulez-vous supprimer cette pizza ?')" class="button-delete" href="/admin/user/delete/<?= $pizza->id ?>">

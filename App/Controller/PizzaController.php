@@ -51,9 +51,6 @@ class PizzaController extends Controller
         // var_dump($ingredients);
     }
 
-    //méthode pour ajouter une pizza au compte user
-    
-
     //méthode qui retourne le formulaire d'ajout d'une pizza par user
     public function createPizza()
     {
@@ -83,7 +80,6 @@ class PizzaController extends Controller
         $tmp_path = $file_data['tmp_name']; //chemin temporaire de l'image
         $public_path = 'public/assets/images/pizza/'; //chemin public de l'image
         $form_result = new FormResult();
-
 
         //condition pour restreindre les types de fichiers que l'on souhaite recevoir
         if (

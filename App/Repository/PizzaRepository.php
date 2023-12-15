@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\AppRepoManager;
 use App\Model\Pizza;
 use Core\Repository\Repository;
+use Core\Session\Session;
 
 class PizzaRepository extends Repository
 {
@@ -84,6 +85,50 @@ class PizzaRepository extends Repository
         return $array_result;
     }
 
+    //  on crée une méthode qui va récupérer les pîzzas par user
+    public function getAllPizzasById(): array
+    {
+        //on déclare un tableau vide
+        $array_result = [];
+
+        // on récupère l'id de l'utilisateur connecté
+        $user_id = Session::get(Session::USER)->id;
+
+        // on déclare la requete SQL
+        $query = sprintf(
+            'SELECT p.`id`, p.`name`, p.`image_path` 
+                 FROM %1$s AS p
+                 INNER JOIN %2$s AS u ON p.`user_id`=u.`id`
+                 WHERE p.`is_active`=1 
+                 AND u.`id`= %3$s',
+            $this->getTableName(),
+            AppRepoManager::getRm()->getUserRepository()->getTableName(),
+            $user_id
+        );
+
+        // on peut directement executer la requete avec la methode query()
+        $stmt = $this->pdo->query($query);
+
+        // on verifie si la requete a bien ete executée
+        if (!$stmt) return $array_result;
+
+        //on recupere les données de la table dans une boucle
+        while ($row_data = $stmt->fetch()) {
+            $pizza = new Pizza($row_data);
+            //on hydrate
+
+            // on va hydrater les ingredients de la pizza
+            $pizza->ingredients = AppRepoManager::getRm()->getPizzaIngredientRepository()->getIngredientByPizzaId($pizza->id);
+
+            //on va hydrater les prix de la pizza
+            $pizza->prices = AppRepoManager::getRm()->getPriceRepository()->getPriceByPizzaId($pizza->id);
+
+            $array_result[] = $pizza;
+        }
+
+        return $array_result;
+    }
+
     //on crée une méthode qui va chercher une pizza par son id
     public function getPizzaById(int $pizza_id): ?Pizza
     {
@@ -133,7 +178,7 @@ class PizzaRepository extends Repository
         $stmt = $this->pdo->prepare($query);
 
         //on verifie que la requête s'est bien preparée
-        if(!$stmt) return null;
+        if (!$stmt) return null;
 
         //on execute la requête bindant les parametres
         $stmt->execute($data);
@@ -145,27 +190,24 @@ class PizzaRepository extends Repository
         return $this->getPizzaById($pizza_id);
     }
 
-    // // methode pour ajouter pizza au compte
-    // public function addPizzaToUser(int $user_id, int $pizza_id): bool
-    // {
-    //     //on crée la requête
-    //     $query = sprintf(
-    //         'UPDATE %s SET `user_id`=:user_id WHERE `id`=:pizza_id',
-    //         $this->getTableName()
-    //     );
+    //TODO:méthode pour modifier une pizza
 
-    //     //on prepare la requête
-    //     $stmt = $this->pdo->prepare($query);
+    // methode pour update une pizza ou is_active = 0
+    public function deletePizza(int $pizza_id)
+    {
+        // on crée la requête
+        $query = sprintf(
+            'UPDATE %s SET `is_active` = 0 WHERE `id` = :id',
+            $this->getTableName()
+        );
 
-    //     //on verifie que la requête s'est bien preparée
-    //     if(!$stmt) return false;
+        // on prépare la reqûete
+        $stmt = $this->pdo->prepare($query);
 
-    //     //on execute la requête bindant les parametres
-    //     $stmt->execute(['user_id' => $user_id, 'pizza_id' => $pizza_id]);
+        // on verifie que la requete est bvien prepapree
+        if (!$stmt) return false;
 
-    //     return true;
-
-
-
-    // }
+        // on execute la requête si la requete est passée on retourne true sinon false
+        return $stmt->execute(['id' => $id]);
+    }
 }

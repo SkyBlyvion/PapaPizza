@@ -180,9 +180,29 @@ class UserRepository extends Repository
         return $stmt->execute(['id' => $id]);
     }
 
+    //methode qui désactive un admin ou membre équipe
+    public function deleteUserAdmin(int $id): bool
+    {
+        // on crée la requête
+        $query = sprintf(
+            'UPDATE %s SET `is_active` = 0 WHERE `id` = :id',
+            $this->getTableName()
+        );
+
+        // on prépare la reqûete
+        $stmt = $this->pdo->prepare($query);
+
+        // on verifie que la requete est bvien prepapree
+        if (!$stmt) return false;
+
+        // on execute la requête si la requete est passée on retourne true sinon false
+        return $stmt->execute(['id' => $id]);
+    }
+
+
     //methode qui permet a un user de modifier ses informations
     public function updateUser(array $data): bool
-    { 
+    {
         var_dump($data);
         // on crée la requête
         $query = sprintf(
@@ -198,11 +218,9 @@ class UserRepository extends Repository
         if (!$stmt) {
             return false;
         }
-       
+
         // on execute la requête
         // $data['id'] = $id;
         return $stmt->execute($data);
-
     }
-
 }
