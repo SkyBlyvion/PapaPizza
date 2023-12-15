@@ -63,15 +63,3 @@ use Core\Session\Session; ?>
     </div>
 </div>
 
-<!-- <?php foreach ($pizzas as $pizza) : ?>
-    <?php if ($pizza->user_id === Session::get(Session::USER)->id) : ?>
-        <div class="card m-2" style="width: 18rem;">
-            <a href="/pizza/<?= $pizza->id ?>">
-                <img src="/assets/images/pizza/<?= $pizza->image_path ?>" alt="<?= $pizza->name ?>" class="card-img-top img-fluid img-pizza">
-            </a>
-            <div class="card-body">
-                <h3 class="card-title sub-title"><?= $pizza->name ?></h3>
-            </div>
-        </div>
-    <?php endif ?>
-<?php endforeach ?> -->

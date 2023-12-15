@@ -208,6 +208,6 @@ class PizzaRepository extends Repository
         if (!$stmt) return false;
 
         // on execute la requête si la requete est passée on retourne true sinon false
-        return $stmt->execute(['id' => $id]);
+        return $stmt->execute(['id' => $pizza_id]);
     }
 }

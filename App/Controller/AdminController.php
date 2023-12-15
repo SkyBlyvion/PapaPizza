@@ -108,7 +108,7 @@ class AdminController extends Controller
         self::redirect('/admin/team/list');
     }
 
-    //méthode qui supprime une pizza
+    //méthode qui supprime une pizza du backoffice
     public function deletePizza(int $id)
     {
         // on vérifie que l'user est admin on verifie que l'user est cnnecté
@@ -126,6 +126,10 @@ class AdminController extends Controller
         if ($form_result->hasErrors()) {
             Session::set(Session::FORM_RESULT, $form_result);
         }
+
+        //si tout est ok on redirife vers la liste des pizzas du backoffice
+        Session::remove(Session::FORM_RESULT);
+        self::redirect('/admin/pizza/list');
     }
 
     //méthode qui retourne le formulaire d'ajout d'un membre d'équipe
