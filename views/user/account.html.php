@@ -32,7 +32,7 @@ use Core\Session\Session; ?>
                     <td class="footer-description"><?= $user->email ?></td>
                     <td class="footer-description"><?= $user->phone ?></td>
                     <td class="footer-description">
-                        <a onclick="return confirm('Voulez-vous supprimer votre compte ?')" class="button-delete" href="#">
+                        <a onclick="return confirm('Voulez-vous supprimer votre compte ?')" class="button-delete" href="/user/user/delete/<?= $user->id ?>">
                             <i class="bi bi-trash"></i></a>
                     </td>
                 </tr>

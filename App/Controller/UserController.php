@@ -124,8 +124,8 @@ class UserController extends Controller
             Session::set(Session::FORM_RESULT, $form_result);
             self::redirect('/user/account/{id}');
         }
-        // si tout est  ok on redirige vers la page du compte user
+        // si tout est  ok on redirige vers l'accueil
         Session::remove(Session::FORM_RESULT);
-        self::redirect('/user/account/{id}');
+        self::redirect('/');
     }
 }
