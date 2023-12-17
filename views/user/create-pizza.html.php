@@ -38,11 +38,10 @@ use Core\Session\Session; ?>
             <?php foreach (AppRepoManager::getRm()->getSizeRepository()->getAllSize() as $size) : ?>
                 <div class="list-size-input">
                     <input type="hidden" name="size_id[]" value="<?= $size->id ?>">
-                    <label class="footer-description"><?= $size->label ?></label>
-                    <input type="number" step="0.01"class="form-control" name="price[]">
-
+                    <label type="tex" class="footer-description"><?= $size->label ?></label> 
+                    <input type="text" step="0.01"class="form-control total-price-input" name="price[]" readonly>
                 </div>
-            <?php endforeach ?>
+            <?php endforeach ?> 
         </div>
         <button type="submit" class="call-action">Créer la pizza</button>
     </form>
@@ -76,3 +75,40 @@ use Core\Session\Session; ?>
         });
     });
 </script>
+
+<!-- script pour calculer le prix total-->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkboxes = document.querySelectorAll('input[name="ingredients[]"]');
+        const sizeInputs = document.querySelectorAll('input[name="price[]"]');
+        const totalPriceInputs = document.querySelectorAll('.total-price-input');
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateTotalPrice);
+        });
+
+        sizeInputs.forEach(sizeInput => {
+            sizeInput.addEventListener('input', updateTotalPrice);
+        });
+
+        function updateTotalPrice() {
+            const initialPrices = [5, 6, 7];
+
+            initialPrices.forEach((initialPrice, index) => {
+                let totalIngredients = 0;
+
+                checkboxes.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        totalIngredients++;
+                    }
+                });
+
+                const basePrice = parseFloat(sizeInputs[index].value || 0);
+                const totalPrice = initialPrice + totalIngredients;
+
+                totalPriceInputs[index].value = totalPrice.toFixed(2);
+            });
+        }
+    });
+</script>
+
