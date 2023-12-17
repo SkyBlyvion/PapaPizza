@@ -1,4 +1,12 @@
+<?php use Core\Session\Session; ?>
 <h1 class="title title-page">Liste des pizzas</h1>
+<div class="admin-container">
+    <?php if (Session::get(Session::USER)) { ?>
+        <a class="call-action" href="/account/<?php echo Session::get(Session::USER)->id ?>" class="btn btn-primary">Créer votre pizza</a>
+    <?php } else { ?>
+        <a class="call-action" href="/connexion" class="btn btn-primary">Créer votre pizza</a>
+    <?php } ?>
+</div>
 <div class="d-flex justify-content-center">
     <div class="d-flex flex-row flex-wrap my-3 justify-content-center col-lg-10">
         <?php foreach ($pizzas as $pizza) : ?>

@@ -19,7 +19,7 @@ use Core\Session\Session; ?>
                 <th class="footer-description">Prénom</th>
                 <th class="footer-description">Email</th>
                 <th class="footer-description">Téléphone</th>
-                <th class="footer-description">Supprimer</th>
+                <th class="footer-description">Action</th>
             </tr>
         </thead>
 

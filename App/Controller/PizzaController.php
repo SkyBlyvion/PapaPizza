@@ -164,11 +164,14 @@ class PizzaController extends Controller
         if ($form_result->hasErrors()) {
             //on stocke les erreurs dans la session
             Session::set(Session::FORM_RESULT, $form_result);
-            //on redirige vers la page mon compte
-            self::redirect('/account/id=' . $user_id);
+            //on redirige vers le formulaire
+            self::redirect('create-pizza/id=' . $user_id);
         }
-        //sinon on redirige vers la page admin
+        //sinon on redirige vers la page mon compte
         Session::remove(Session::FORM_RESULT);
         self::redirect('/account/id=' . $user_id);
     }
+
+    //méthode qui  calcule les prix d'une pizza par ingrédients et tailles
+
 }

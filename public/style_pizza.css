@@ -65,7 +65,7 @@ table {
 th,
 td {
     border: 1px solid rgba(155, 49, 49, 1);
-    padding: 10px;
+    padding: 8px;
     text-align: left;
 }
 
@@ -87,6 +87,9 @@ allergene>div>span {
     background-color: rgba(155, 49, 49, 1) !important;
 
 }
+
+
+
 
 /* Vue tablette  */
 @media screen and (min-width: 768px) {

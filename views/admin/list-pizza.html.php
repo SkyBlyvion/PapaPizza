@@ -46,8 +46,11 @@ use Core\Session\Session; ?>
                     <td class="footer-description">
                         <a onclick="return confirm('Voulez-vous supprimer cette pizza ?')" class="button-delete" href="/admin/pizza/delete/<?= $pizza->id ?>">
                             <i class="bi bi-trash"></i></a>
+                            <a onclick="return confirm('Voulez-vous modifier cette pizza ?')" class="button-delete" href="<?= $pizza->id ?>">
+                            <i class="bi bi-gear"></i></a>
 
                     </td>
+
                 </tr>
             <?php endforeach ?>
         </tbody>

@@ -48,3 +48,30 @@ use Core\Session\Session; ?>
     </form>
 
 </main>
+<!-- script pour limiter les ingrédients a 8max -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkboxes = document.querySelectorAll('input[name="ingredients[]"]');
+        let selectedCount = 0;
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                if (this.checked) {
+                    selectedCount++;
+                    if (selectedCount >= 8) {
+                        checkboxes.forEach(cb => {
+                            if (!cb.checked) {
+                                cb.disabled = true;
+                            }
+                        });
+                    }
+                } else {
+                    selectedCount--;
+                    checkboxes.forEach(cb => {
+                        cb.disabled = false;
+                    });
+                }
+            });
+        });
+    });
+</script>
