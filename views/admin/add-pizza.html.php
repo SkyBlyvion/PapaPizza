@@ -38,9 +38,8 @@ use Core\Session\Session; ?>
             <?php foreach (AppRepoManager::getRm()->getSizeRepository()->getAllSize() as $size) : ?>
                 <div class="list-size-input">
                     <input type="hidden" name="size_id[]" value="<?= $size->id ?>">
-                    <label class="footer-description"><?= $size->label ?></label>
-                    <input type="number" step="0.01"class="form-control" name="price[]">
-
+                    <label type="tex" class="footer-description"><?= $size->label ?></label>
+                    <input type="text" step="0.01" class="form-control total-price-input" name="price[]">
                 </div>
             <?php endforeach ?>
         </div>
@@ -48,30 +47,3 @@ use Core\Session\Session; ?>
     </form>
 
 </main>
-<!-- script pour limiter les ingrédients a 8max -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const checkboxes = document.querySelectorAll('input[name="ingredients[]"]');
-        let selectedCount = 0;
-
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function () {
-                if (this.checked) {
-                    selectedCount++;
-                    if (selectedCount >= 8) {
-                        checkboxes.forEach(cb => {
-                            if (!cb.checked) {
-                                cb.disabled = true;
-                            }
-                        });
-                    }
-                } else {
-                    selectedCount--;
-                    checkboxes.forEach(cb => {
-                        cb.disabled = false;
-                    });
-                }
-            });
-        });
-    });
-</script>

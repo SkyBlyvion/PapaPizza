@@ -7,6 +7,7 @@ use App\Controller\AuthController;
 use App\Controller\UserController;
 use App\Controller\AdminController;
 use App\Controller\PizzaController;
+use App\Model\Pizza;
 use Core\Database\DatabaseConfigInterface;
 use MiladRahimi\PhpRouter\Exceptions\RouteNotFoundException;
 use MiladRahimi\PhpRouter\Exceptions\InvalidCallableException;
@@ -121,6 +122,8 @@ class App implements DatabaseConfigInterface
         $this->router->post('/add-pizza-form', [AdminController::class, 'addPizzaForm']);
         // route pour supprimer une pizza du backoffice
         $this->router->get('/admin/pizza/delete/{id}', [AdminController::class, 'deletePizza']);
+        
+
   
     }
 

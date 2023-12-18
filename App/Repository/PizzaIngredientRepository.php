@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use PDO;
 use App\AppRepoManager;
 use App\Model\Ingredient;
+use App\Model\PizzaIngredient;
 use Core\Repository\Repository;
 
 class PizzaIngredientRepository extends Repository
@@ -45,7 +47,7 @@ class PizzaIngredientRepository extends Repository
     }
 
     //méthode pour créer une pizza_ingredient
-    public function insertPizzaIngredient(array $data):bool
+    public function insertPizzaIngredient(array $data): bool
     {
         //on crée la requete
         $query = sprintf(
@@ -58,7 +60,7 @@ class PizzaIngredientRepository extends Repository
         $stmt = $this->pdo->prepare($query);
 
         //on verifie que le requete est bien preparée
-        if(!$stmt) return false;
+        if (!$stmt) return false;
 
         //on execute le requete en bindant les paramètres
         $stmt->execute($data);

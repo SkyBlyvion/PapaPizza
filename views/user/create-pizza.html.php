@@ -38,10 +38,10 @@ use Core\Session\Session; ?>
             <?php foreach (AppRepoManager::getRm()->getSizeRepository()->getAllSize() as $size) : ?>
                 <div class="list-size-input">
                     <input type="hidden" name="size_id[]" value="<?= $size->id ?>">
-                    <label type="tex" class="footer-description"><?= $size->label ?></label> 
-                    <input type="text" step="0.01"class="form-control total-price-input" name="price[]" readonly>
+                    <label type="tex" class="footer-description"><?= $size->label ?></label>
+                    <input type="text" step="0.01" class="form-control total-price-input" name="price[]" readonly>
                 </div>
-            <?php endforeach ?> 
+            <?php endforeach ?>
         </div>
         <button type="submit" class="call-action">Créer la pizza</button>
     </form>
@@ -50,12 +50,12 @@ use Core\Session\Session; ?>
 
 <!-- script pour limiter les ingrédients a 8max -->
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const checkboxes = document.querySelectorAll('input[name="ingredients[]"]');
         let selectedCount = 0;
 
         checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function () {
+            checkbox.addEventListener('change', function() {
                 if (this.checked) {
                     selectedCount++;
                     if (selectedCount >= 8) {
@@ -78,7 +78,7 @@ use Core\Session\Session; ?>
 
 <!-- script pour calculer le prix total-->
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const checkboxes = document.querySelectorAll('input[name="ingredients[]"]');
         const sizeInputs = document.querySelectorAll('input[name="price[]"]');
         const totalPriceInputs = document.querySelectorAll('.total-price-input');
@@ -111,4 +111,3 @@ use Core\Session\Session; ?>
         }
     });
 </script>
-

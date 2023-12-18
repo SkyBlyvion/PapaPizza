@@ -83,7 +83,6 @@ class UserController extends Controller
         ) {
             $form_result->addError(new FormError('Veuillez renseigner tous les champs'));
             // var_dump($form_result);
-    
             // on verifie que l'email est valide
         } else if (!$this->validEmail($data_form['email'])) {
             $form_result->addError(new FormError('L\'email n\'est pas valide'));
@@ -97,7 +96,6 @@ class UserController extends Controller
                 'phone' => $this->validInput($data_form['phone']),
                 'id' => $data_form['id']
             ];
-           
             $user = AppRepoManager::getRm()->getUserRepository()->updateUser($data_user);
         }
 

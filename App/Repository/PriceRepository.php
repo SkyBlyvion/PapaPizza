@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use PDO;
 use App\Model\Size;
 use App\Model\Price;
 use App\AppRepoManager;
@@ -85,4 +86,8 @@ class PriceRepository extends Repository
 
         return $stmt->rowCount() > 0;
     }
+
+
+   
 }
+

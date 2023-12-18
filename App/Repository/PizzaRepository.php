@@ -190,7 +190,6 @@ class PizzaRepository extends Repository
         return $this->getPizzaById($pizza_id);
     }
 
-    //TODO:méthode pour modifier une pizza
 
     // methode pour update une pizza ou is_active = 0
     public function deletePizza(int $pizza_id)

@@ -23,6 +23,23 @@ class PizzaController extends Controller
         $view->render();
     }
 
+    //methode qui formate les inputs du formulaire
+    // cette méthode formate a la chaine sur la même string et reprend le value du dessus car il garde son etat d'avant et repasse en parametre
+    public function validInput(string $value)
+    {
+        // on supprime les espaces en début et fin de string
+        $value = trim($value);
+        // on supprrime les balises html
+        $value = strip_tags($value);
+        // on supprime les antislash
+        $value = stripslashes($value);
+        // on supprime les caractéres speciaux
+        $value = htmlspecialchars($value);
+
+        return $value;
+    }
+
+
     // méthode qui récupére la liste des pizzas
     public function getPizzas()
     {
@@ -171,7 +188,5 @@ class PizzaController extends Controller
         Session::remove(Session::FORM_RESULT);
         self::redirect('/account/id=' . $user_id);
     }
-
-    //méthode qui  calcule les prix d'une pizza par ingrédients et tailles
 
 }
