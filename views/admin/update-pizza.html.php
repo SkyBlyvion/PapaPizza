@@ -53,7 +53,8 @@ use Core\Session\Session; ?>
         <button type="submit" class="call-action">Modifier les ingrédients</button>
     </form>
 
-    <form action="/update-pizza/price">
+    <form action="/update-pizza/price" method="POST">
+        <input type="hidden" name="pizza_id" value="<?= $pizza->id ?>">
         <div class="box-auth-input list-size">
             <label class="header-description">Prix par taille :</label>
             <?php foreach ($pizza->prices as $size) : ?>

@@ -245,7 +245,7 @@ class AdminController extends Controller
                             'size_id' => intval($size_id),
                             'price' => floatval($array_price[$size_id - 1])
                         ];
-                        //on appelle la méthode qui va insérer les tailles de la pizza
+                        //on appelle la méthode qui va insérer les tailles + prix de la pizza
                         $price = AppRepoManager::getRm()->getPriceRepository()->insertPrice($data_price);
                         //on vérifie que l'insertion s'est bien passée
                         if (!$price) {
@@ -409,7 +409,7 @@ class AdminController extends Controller
             ];
             //on appelle la méthode qui va insérer les ingrédients de la pizza
             $pizza_ingredient = AppRepoManager::getRm()->getPizzaIngredientRepository()->insertPizzaIngredient($data_pizza_ingredient);
-            
+
             //on vérifie que l'insertion s'est bien passée
             if (!$pizza_ingredient) {
                 $form_result->addError(new FormError('Erreur lors de l\'insertion des ingrédients de la pizza'));
@@ -429,4 +429,53 @@ class AdminController extends Controller
         Session::remove(Session::FORM_RESULT);
         self::redirect('/admin/pizza/list');
     }
+
+    // méthode qui recoit et traite le form de changement de prix
+    public function updatePizzaPrice(ServerRequest $request)
+    {
+        $post_data = $request->getParsedBody();
+        $pizza_id = $post_data['pizza_id'];
+        $array_price = $post_data['price']; //tableau des prix
+        $array_size = $post_data['size_id']; //tableau des tailles
+        $form_result = new FormResult();
+
+        //on va insérer les tailles de la pizza
+        foreach ($array_size as $size_id) {
+            //on crée un tableau de données
+            $data_price = [
+                'pizza_id' => intval($pizza_id),
+                'size_id' => intval($size_id),
+                'price' => floatval($array_price[$size_id - 1])
+            ];
+            //on appelle la méthode qui va updater les tailles de la pizza
+            $price = AppRepoManager::getRm()->getPriceRepository()->updatePizzaPrice($data_price);
+            //on vérifie que l'insertion s'est bien passée
+            if (!$price) {
+                $form_result->addError(new FormError('Erreur lors de l\'insertion des tailles de la pizza'));
+            }
+        }        
+        
+
+        //on vérifie que l'insertion s'est bien passée
+        if (!$price) {
+            $form_result->addError(new FormError('Erreur lors de l\'insertion des prix de la pizza'));
+
+            return;
+        }
+
+        //si il y a des erreurs
+        if ($form_result->hasErrors()) {
+            //on stocke les erreurs dans la session
+            Session::set(Session::FORM_RESULT, $form_result);
+            //on redirige vers la page d'ajout de jouet
+            self::redirect('/admin/pizza/list');
+        }
+        
+        //sinon on redirige vers la page admin
+        Session::remove(Session::FORM_RESULT);
+        self::redirect('/admin/pizza/list');
+    }
+
+
+
 }

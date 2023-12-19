@@ -41,8 +41,7 @@ class PriceRepository extends Repository
         $stmt->execute(['id' => $pizza_id]);
 
         //on recupere les resultats
-        while ($row_data = $stmt->fetch())
-        {
+        while ($row_data = $stmt->fetch()) {
             $price = new Price($row_data);
 
             // on doit reconstruire un tableau afin de créer une instance de Size
@@ -66,7 +65,7 @@ class PriceRepository extends Repository
     }
 
     //méthode pour créer un prix
-    public function insertPrice(array $data):bool
+    public function insertPrice(array $data): bool
     {
         //on crée la requete
         $query = sprintf(
@@ -79,7 +78,7 @@ class PriceRepository extends Repository
         $stmt = $this->pdo->prepare($query);
 
         //on verifie que le requete est bien preparée
-        if(!$stmt) return false;
+        if (!$stmt) return false;
 
         //on execute le requete en bindant les paramètres
         $stmt->execute($data);
@@ -87,7 +86,25 @@ class PriceRepository extends Repository
         return $stmt->rowCount() > 0;
     }
 
+    //methode pour update les prix d'une pizza
+    public function updatePizzaPrice(array $data)
+    {
+        // On crée la requête
+        $query = sprintf(
+            'UPDATE %1$s SET `price` = :price WHERE `pizza_id` = :pizza_id AND `size_id` = :size_id',
+            $this->getTableName()
 
-   
+        );
+
+        //on prepare la requête
+        $stmt = $this->pdo->prepare($query);
+
+        // on vérifie que la requête est bien préparée
+        if (!$stmt) {
+            return false;
+        }
+
+        // On exécute la requête avec les données fournies
+        return $stmt->execute($data);
+    }
 }
-
