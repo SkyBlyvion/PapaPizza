@@ -105,7 +105,7 @@ class AdminController extends Controller
         }
         // si tout est  ok on redirife vers la liste des user
         Session::remove(Session::FORM_RESULT);
-        self::redirect('/admin/team/list');
+        self::redirect('/admin/home');
     }
 
     //méthode qui supprime une pizza du backoffice

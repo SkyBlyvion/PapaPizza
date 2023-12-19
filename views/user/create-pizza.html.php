@@ -50,23 +50,31 @@ use Core\Session\Session; ?>
 
 <!-- script pour limiter les ingrédients a 8max -->
 <script>
+    // attendre que le DOM soit chargé
     document.addEventListener('DOMContentLoaded', function() {
+        // selectionne tous les checkbox
         const checkboxes = document.querySelectorAll('input[name="ingredients[]"]');
         let selectedCount = 0;
-
+        // ajout d'eventlistener
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener('change', function() {
+                // si coché
                 if (this.checked) {
+                    // incrementer
                     selectedCount++;
+                    // si superieur a 8
                     if (selectedCount >= 8) {
                         checkboxes.forEach(cb => {
+                            // on desactive les cases restantes
                             if (!cb.checked) {
                                 cb.disabled = true;
                             }
                         });
                     }
                 } else {
+                    // sinon decrementer
                     selectedCount--;
+                    // reactiver cases
                     checkboxes.forEach(cb => {
                         cb.disabled = false;
                     });
@@ -78,11 +86,14 @@ use Core\Session\Session; ?>
 
 <!-- script pour calculer le prix total-->
 <script>
+    // attendre que le DOM soit chargé
     document.addEventListener('DOMContentLoaded', function() {
+        // selectionne tous les checkbox
         const checkboxes = document.querySelectorAll('input[name="ingredients[]"]');
         const sizeInputs = document.querySelectorAll('input[name="price[]"]');
         const totalPriceInputs = document.querySelectorAll('.total-price-input');
 
+        // ajout d'eventlistener
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener('change', updateTotalPrice);
         });
@@ -91,21 +102,25 @@ use Core\Session\Session; ?>
             sizeInput.addEventListener('input', updateTotalPrice);
         });
 
+        // fonction qui met à jour le prix total
         function updateTotalPrice() {
+            // prix initiaux
             const initialPrices = [5, 6, 7];
-
+           
             initialPrices.forEach((initialPrice, index) => {
                 let totalIngredients = 0;
 
+                // compte le nombre d'ingrédients cocheés
                 checkboxes.forEach(checkbox => {
                     if (checkbox.checked) {
                         totalIngredients++;
                     }
                 });
-
+                // calcul du prix
                 const basePrice = parseFloat(sizeInputs[index].value || 0);
+                // calcul en ajoutant les prix initiaux
                 const totalPrice = initialPrice + totalIngredients;
-
+                // mise a jour du prix
                 totalPriceInputs[index].value = totalPrice.toFixed(2);
             });
         }

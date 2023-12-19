@@ -103,7 +103,7 @@ class UserController extends Controller
         self::redirect('/account/' . $data_form['id']);
     }
 
-    //on désactive un user
+    //on désactive un user par un user
     public function deleteUser(int $id)
     {
         // on vérifie que l'user est cnnecté
@@ -122,8 +122,10 @@ class UserController extends Controller
             Session::set(Session::FORM_RESULT, $form_result);
             self::redirect('/user/account/{id}');
         }
-        // si tout est  ok on redirige vers l'accueil
+        // si tout est  ok on redirige vers l'accueil et on unlog
         Session::remove(Session::FORM_RESULT);
+        Session::remove(Session::USER);
         self::redirect('/');
+       
     }
 }

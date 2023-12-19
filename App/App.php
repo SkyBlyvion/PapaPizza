@@ -63,7 +63,6 @@ class App implements DatabaseConfigInterface
     private function registerRoutes()
     {
         //exemple de routes avec un controller
-        // $this->router->get('/', [ToyController::class, 'index']);
         $this->router->get('/', [PizzaController::class, 'home']);
         $this->router->get('/pizzas', [PizzaController::class, 'getPizzas']);
         $this->router->get('/pizza/{id}', [PizzaController::class, 'getPizzaById']);
@@ -76,7 +75,7 @@ class App implements DatabaseConfigInterface
 
         // route pour le formulaire d'inscriptiobn
         $this->router->get('/inscription', [AuthController::class, 'registerForm']);
-        // route qui recoit le formulaire de creation de compte
+        // route qui recoit le formulaire d'inscriptiobn
         $this->router->post('/register', [AuthController::class, 'register']);
 
         // route pour se déconnecer
@@ -105,29 +104,37 @@ class App implements DatabaseConfigInterface
 
 
         /* PARTIE ORDER*/
-        // route pour acceder a la page de commandes
+        // route pour acceder a la page de commandes de user
         $this->router->get('/user-order', [OrderController::class, 'order']);
         
 
         /* PARTIE BACK OFFICE */
-        // route pour acceder a ala page d'administration
+        // route pour acceder a la page d'administration
         $this->router->get('/admin/home', [AdminController::class, 'home']);
+        // route pour acceder a la liste des utilisateurs
         $this->router->get('/admin/user/list', [AdminController::class, 'listUser']);
+        // route pour acceder a la liste des membres d'équipe
         $this->router->get('/admin/team/list', [AdminController::class, 'listTeam']);
+        // route pour acceder a la liste des pizzas du backoffice
         $this->router->get('/admin/pizza/list', [AdminController::class, 'listPizza']);
+        // route pour acceder a la liste des commandes
         $this->router->get('/admin/order/list', [AdminController::class, 'listOrder']);
+
         //route pour ajouter une pizza
         $this->router->get('/admin/pizza/add', [AdminController::class, 'addPizza']);
+        //route qui receptionne le formulaire d'ajout d'une pizza
+        $this->router->post('/add-pizza-form', [AdminController::class, 'addPizzaForm']);
+
         // route pour ajouter un membre d'équipe
         $this->router->get('/admin/team/add', [AdminController::class, 'addTeam']);
         //route pour "supprimer" un user
         $this->router->get('/admin/user/delete/{id}', [AdminController::class, 'deleteUserAdmin']);
-        //route qui receptionne le formulaire d'ajout d'une pizza
-        $this->router->post('/add-pizza-form', [AdminController::class, 'addPizzaForm']);
+
         // route pour supprimer une pizza du backoffice
         $this->router->get('/admin/pizza/delete/{id}', [AdminController::class, 'deletePizza']);
         // route pour modifier une pizza du backoffice
         $this->router->get('/admin/pizza/update/{id}', [AdminController::class, 'updatePizza']);
+        
         // route qui receptionne le formulaire de modification du nom d'une pizza
         $this->router->post('/update-pizza/name', [AdminController::class, 'updatePizzaName']);
         // route pour modification image
