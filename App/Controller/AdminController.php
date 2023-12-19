@@ -284,7 +284,7 @@ class AdminController extends Controller
     // méthode qui reçoit et traite le formulaire de changement de nom
     public function updatePizzaName()
     {
-        
+
         // Récupérer les données du formulaire
         $newName = $_POST['name'];
 
@@ -351,10 +351,10 @@ class AdminController extends Controller
             // Redéfinition d'un nom unique pour l'image
             $filename = uniqid() . '_' . $image_name;
             $slug = explode('.', strtolower(str_replace(' ', '-', $filename)))[0];
-            
+
             // Le chemin de destination
             $imgPathPublic = PATH_ROOT . $public_path . $filename;
-            
+
             // Reconstruction d'un tableau de données
             $data_pizza = [
                 'image_path' => htmlspecialchars(trim($filename)),
@@ -365,16 +365,68 @@ class AdminController extends Controller
             if (move_uploaded_file($tmp_path, $imgPathPublic)) {
                 // Appel du repository pour insérer dans la BDD
                 $pizza = AppRepoManager::getRm()->getPizzaRepository()->updatePizzaImage($data_pizza);
-                
+
                 // On vérifie que la pizza a bien été insérée
                 if (!$pizza) {
                     $form_result->addError(new FormError('Erreur lors de l\'insertion de la pizza'));
                 }
-                
+
                 // Redirection vers la liste des pizzas
                 self::redirect('/admin/pizza/list');
-              
             }
         }
+    }
+
+    // methode qui reçoit et traire le formulaire de changement d'ingrédients
+    public function updatePizzaIngredients(ServerRequest $request)
+    {
+        $post_data = $request->getParsedBody();
+        $pizza_id = $post_data['pizza_id'];
+        $array_ingredients = $post_data['ingredients']; //tableau des ingredients
+        $form_result = new FormResult();
+
+        //on récupère l'id de la pizza
+        $pizza = AppRepoManager::getRm()->getPizzaRepository()->getPizzaById($pizza_id);
+
+
+        // Supprimer les anciens ingrédients de la pizza
+        $deleted = AppRepoManager::getRm()->getPizzaIngredientRepository()->deletePizzaIngredients($pizza_id);
+
+        if (!$deleted) {
+            $form_result->addError(new FormError('Erreur lors de la suppression des anciens ingrédients'));
+
+            return;
+        }
+
+        //on va insérer les ingrédients de la pizza
+        foreach ($array_ingredients as $ingredient_id) {
+            //on crée un tableau de données
+            $data_pizza_ingredient = [
+                'pizza_id' => intval($pizza_id),
+                'ingredient_id' => intval($ingredient_id),
+                'quantity' => 1,
+                'unit_id' => 5
+            ];
+            //on appelle la méthode qui va insérer les ingrédients de la pizza
+            $pizza_ingredient = AppRepoManager::getRm()->getPizzaIngredientRepository()->insertPizzaIngredient($data_pizza_ingredient);
+            
+            //on vérifie que l'insertion s'est bien passée
+            if (!$pizza_ingredient) {
+                $form_result->addError(new FormError('Erreur lors de l\'insertion des ingrédients de la pizza'));
+
+                return;
+            }
+        }
+
+        //si il y a des erreurs
+        if ($form_result->hasErrors()) {
+            //on stocke les erreurs dans la session
+            Session::set(Session::FORM_RESULT, $form_result);
+            //on redirige vers la page d'ajout de jouet
+            self::redirect('/admin/pizza/add');
+        }
+        //sinon on redirige vers la page admin
+        Session::remove(Session::FORM_RESULT);
+        self::redirect('/admin/pizza/list');
     }
 }

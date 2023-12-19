@@ -32,14 +32,14 @@ use Core\Session\Session; ?>
         <button type="submit" class="call-action">Modifier l'image</button>
     </form>
 
-    <form class="auth-form" action="/update-pizza/ingredient" method="POST">
+    <form class="auth-form" action="/update-pizza/ingredients" method="POST">
+        <input type="hidden" name="pizza_id" value="<?= $pizza->id ?>">
         <div class="box-auth-input list-ingredient">
             <!-- on affiche la liste des ingrédients -->
             <?php foreach (AppRepoManager::getRm()->getIngredientRepository()->getIngredientActive() as $ingredient) :
                 $checked = "";
                 foreach ($pizza->ingredients as $pizza_ingredient) {
                     if ($pizza_ingredient->id == $ingredient->id) {
-                        $checked = "checked";
                     }
                 }
 

@@ -67,4 +67,29 @@ class PizzaIngredientRepository extends Repository
 
         return $stmt->rowCount() > 0;
     }
+
+    //méthode pour supprimer les ingrédients d'une pizza
+    public function deletePizzaIngredients(int $pizza_id): bool
+    {
+        //on crée la requête
+        $query = sprintf(
+            'DELETE FROM %1$s WHERE `pizza_id`=:pizza_id',
+            $this->getTableName()
+        );
+
+        //on prepare la requête
+        $stmt = $this->pdo->prepare($query);
+
+        //on verifie que la requête est bien préparée
+        if (!$stmt) {
+            return false;
+        }
+
+        //on execute le requête en bindant les paramètres
+        $stmt->execute(['pizza_id' => $pizza_id]);
+        
+        // vérifie si au moins une ligne a été affectée par la reqûete 
+        //Si oui retourne true. Sinon, elle retourne false.
+        return $stmt->rowCount() > 0;
+    }
 }

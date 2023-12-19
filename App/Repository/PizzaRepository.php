@@ -254,4 +254,28 @@ class PizzaRepository extends Repository
         // on exécute la requête si la requête est passée on retourne true sinon false
         return $stmt->execute($data);
     }
+
+    //methode pour update les ingrédients d'une pizza
+    public function updatePizzaIngredients(array $data)
+    {
+        //on crée la requête
+        $query = sprintf(
+            'UPDATE %s SET `ingredients` = :ingredients WHERE `id` = :id',
+            $this->getTableName()
+        );
+
+        //on prepare la requête
+        $stmt = $this->pdo->prepare($query);
+
+        // on verrifie que la requête est bien préparée
+        if (!$stmt) {
+            return false;
+        }
+
+        // On exécute la requête avec les données fournies
+        return $stmt->execute([
+            'ingredients' => json_encode($data['ingredients']), // Assure-toi que `ingredients` est un tableau
+            'id' => $data['id'],
+        ]);
+    }
 }
