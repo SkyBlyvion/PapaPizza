@@ -268,4 +268,58 @@ class AdminController extends Controller
         Session::remove(Session::FORM_RESULT);
         self::redirect('/admin/pizza/list');
     }
+
+    public function updatePizza(int $id)
+    {
+        $view_data = [
+            'pizza' => AppRepoManager::getRm()->getPizzaRepository()->getPizzaById($id),
+            "form_result" => Session::get(Session::FORM_RESULT),
+        ];
+
+        $view = new View('admin/update-pizza');
+
+        $view->render($view_data);
+    }
+
+    // méthode qui reçoit et traite le formulaire de changement de nom
+    public function updatePizzaName()
+    {
+        // Récupérer les données du formulaire
+        $newName = $_POST['name'];
+
+        // Vérifier si le nom est vide
+        if (empty($newName)) {
+            // Afficher une erreur
+            echo "Le nom ne peut pas être vide";
+            return;
+        }
+
+        // Récupérer l'ID de la pizza à modifier
+        $id = $_POST['pizza_id'];
+
+        // Vérifier si l'ID est valide
+        if (!is_numeric($id)) {
+            // Afficher une erreur
+            echo "ID de pizza invalide";
+            return;
+        }
+
+        // Mettre à jour le nom de la pizza dans la base de données
+        $result = AppRepoManager::getRm()->getPizzaRepository()->updatePizzaName([
+            'id' =>$id, 
+            'name' =>$newName,
+        ]);
+
+        // Vérifier si la mise à jour a réussi
+        if ($result) {
+            // Rediriger vers la liste des pizzas
+            header("Location: /admin/pizza/list");
+            exit;
+        } else {
+            // Afficher une erreur
+            echo "Erreur lors de la mise à jour du nom de la pizza";
+            return;
+        }
+    }
+
 }

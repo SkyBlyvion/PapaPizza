@@ -209,4 +209,28 @@ class PizzaRepository extends Repository
         // on execute la requête si la requete est passée on retourne true sinon false
         return $stmt->execute(['id' => $pizza_id]);
     }
+
+    // methode pour update le nom d une pizza
+    public function updatePizzaName(array $data)
+    {
+        //on crée la requête
+        $query = sprintf(
+            'UPDATE %s SET `name` = :name WHERE `id` = :id',
+            $this->getTableName()
+        );
+
+        //on prepare la requête
+        $stmt = $this->pdo->prepare($query);
+
+        // on vérifie que la requête est bien préparée
+        if (!$stmt) {
+            return false;
+        }
+
+        // on exécute la requête si la requête est passée on retourne true sinon false
+        return $stmt->execute([
+            'id' => $data['id'],
+            'name' => $data['name'],
+        ]);
+    }
 }

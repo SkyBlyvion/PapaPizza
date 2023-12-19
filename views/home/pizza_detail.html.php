@@ -18,6 +18,12 @@
         </div>
     </div>
     <div class="info-pizza-detail">
+        <form action="/user-order" method="post" id="order-form">
+            <input type="hidden" name="pizzaId" value="<?= $pizza->id ?>">
+            <input type="hidden" name="pizzaName" value="<?= $pizza->name ?>">
+          
+        </form>
+
         <h3 class="sub-title sub-title-detail">Ingrédients :</h3>
         <div class="box-ingredient-detail">
             <?php foreach ($pizza->ingredients as $ingredient) : ?>
@@ -38,7 +44,11 @@
                     <tr>
                         <td class="footer-description"><?= $price->size->label ?></td>
                         <td class="footer-description"><?= number_format($price->price, 2, ',', ' ') ?> €</td>
-                        <td class="footer-description"><i class="bi bi-plus-circle"></td>
+                        <td class="footer-description">
+                            <a href="/user-order" class="call-action">
+                                <i class="bi bi-plus-circle"></i>
+                            </a>
+                        </td>
                     </tr>
                 <?php endforeach ?>
             </tbody>

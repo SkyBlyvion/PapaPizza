@@ -47,6 +47,9 @@ use Core\Session\Session; ?>
                         <a onclick="return confirm('Voulez-vous supprimer cette pizza ?')" class="button-delete" href="/admin/pizza/delete/<?= $pizza->id ?>">
                             <i class="bi bi-trash"></i>
                         </a>
+                        <a class="button-delete bg-warning" href="/admin/pizza/update/<?= $pizza->id ?>">
+                            <i class="bi bi-gear"></i>
+                        </a>
 
                     </td>
 

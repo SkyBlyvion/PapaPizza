@@ -78,7 +78,7 @@
                                         </a>
                                     <?php else : ?>
 
-                                        <a href="#">
+                                        <a href="/user-order">
                                             <img class="custom-svg" src="/assets/images/icon/cart.svg" alt="icone panier">
                                         </a>
                                     <?php endif ?>

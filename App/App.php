@@ -2,12 +2,13 @@
 
 namespace App;
 
+use App\Model\Pizza;
 use MiladRahimi\PhpRouter\Router;
 use App\Controller\AuthController;
 use App\Controller\UserController;
 use App\Controller\AdminController;
+use App\Controller\OrderController;
 use App\Controller\PizzaController;
-use App\Model\Pizza;
 use Core\Database\DatabaseConfigInterface;
 use MiladRahimi\PhpRouter\Exceptions\RouteNotFoundException;
 use MiladRahimi\PhpRouter\Exceptions\InvalidCallableException;
@@ -103,6 +104,9 @@ class App implements DatabaseConfigInterface
         $this->router->post('/user/create-pizza', [PizzaController::class, 'createPizzaForm']);
 
 
+        /* PARTIE ORDER*/
+        // route pour acceder a la page de commandes
+        $this->router->get('/user-order', [OrderController::class, 'order']);
         
 
         /* PARTIE BACK OFFICE */
@@ -122,6 +126,20 @@ class App implements DatabaseConfigInterface
         $this->router->post('/add-pizza-form', [AdminController::class, 'addPizzaForm']);
         // route pour supprimer une pizza du backoffice
         $this->router->get('/admin/pizza/delete/{id}', [AdminController::class, 'deletePizza']);
+
+
+        // route pour modifier une pizza du backoffice
+        $this->router->get('/admin/pizza/update/{id}', [AdminController::class, 'updatePizza']);
+
+        // route qui receptionne le formulaire de modification du nom d'une pizza
+        $this->router->post('/update-pizza/name', [AdminController::class, 'updatePizzaName']);
+        // route pour modification image
+        $this->router->post('/update-pizza/image', [AdminController::class, 'updatePizzaImage']);
+        // route pour modification ingredients pizza
+        $this->router->post('/update-pizza/ingredients', [AdminController::class, 'updatePizzaIngredients']);
+        //route pour modifier prix par taille
+        $this->router->post('/update-pizza/price', [AdminController::class, 'updatePizzaPrice']);
+
         
 
   
