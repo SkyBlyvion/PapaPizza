@@ -233,4 +233,25 @@ class PizzaRepository extends Repository
             'name' => $data['name'],
         ]);
     }
+
+    //methode qui update l'image d'une pizza
+    public function updatePizzaImage(array $data)
+    {
+        // on crée la requête
+        $query = sprintf(
+            'UPDATE %s SET `image_path` = :image_path WHERE `id` = :id',
+            $this->getTableName()
+        );
+
+        // on prepare la requête
+        $stmt = $this->pdo->prepare($query);
+
+        // on vérifie que la requête est bien préparée
+        if (!$stmt) {
+            return false;
+        }
+
+        // on exécute la requête si la requête est passée on retourne true sinon false
+        return $stmt->execute($data);
+    }
 }

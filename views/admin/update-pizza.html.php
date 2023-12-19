@@ -22,7 +22,8 @@ use Core\Session\Session; ?>
         <button type="submit" class="call-action">Modifier le nom</button>
     </form>
 
-    <form action="/update-pizza/image" method="POST">
+    <form action="/update-pizza/image" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="pizza_id" value="<?= $pizza->id ?>">
         <div class="box-auth-input">
             <label class="detail-description">Charger une image</label>
             <input type="file" class="form-control" name="image_path">

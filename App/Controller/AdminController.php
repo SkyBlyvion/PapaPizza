@@ -284,6 +284,7 @@ class AdminController extends Controller
     // méthode qui reçoit et traite le formulaire de changement de nom
     public function updatePizzaName()
     {
+        
         // Récupérer les données du formulaire
         $newName = $_POST['name'];
 
@@ -306,8 +307,8 @@ class AdminController extends Controller
 
         // Mettre à jour le nom de la pizza dans la base de données
         $result = AppRepoManager::getRm()->getPizzaRepository()->updatePizzaName([
-            'id' =>$id, 
-            'name' =>$newName,
+            'id' => $id,
+            'name' => $newName,
         ]);
 
         // Vérifier si la mise à jour a réussi
@@ -322,4 +323,58 @@ class AdminController extends Controller
         }
     }
 
+    // Méthode qui reçoit et traite le formulaire de changement d'image
+    public function updatePizzaImage(ServerRequest $request)
+    {
+        $post_data = $request->getParsedBody();
+        $pizza_id = $post_data['pizza_id'];
+        $file_data = $_FILES['image_path'];
+        $form_result = new FormResult();
+
+        // Création des variables
+        $image_name = $file_data['name']; // Nom de l'image
+        $tmp_path = $file_data['tmp_name']; // Chemin temporaire de l'image
+        $public_path = 'public/assets/images/pizza/'; // Chemin public de l'image
+
+        // Création d'une nouvelle instance de FormResult
+        $form_result = new FormResult();
+
+        // Condition pour restreindre les types de fichiers que l'on souhaite recevoir
+        if (
+            $file_data['type'] !== 'image/jpeg' &&
+            $file_data['type'] !== 'image/png' &&
+            $file_data['type'] !== 'image/jpg' &&
+            $file_data['type'] !== 'image/webp'
+        ) {
+            $form_result->addError(new FormError('Le format de l\'image n\'est pas valide'));
+        } else {
+            // Redéfinition d'un nom unique pour l'image
+            $filename = uniqid() . '_' . $image_name;
+            $slug = explode('.', strtolower(str_replace(' ', '-', $filename)))[0];
+            
+            // Le chemin de destination
+            $imgPathPublic = PATH_ROOT . $public_path . $filename;
+            
+            // Reconstruction d'un tableau de données
+            $data_pizza = [
+                'image_path' => htmlspecialchars(trim($filename)),
+                'id' => $pizza_id,
+            ];
+
+            // On va déplacer le fichier tmp dans son dossier de destination dans une condition
+            if (move_uploaded_file($tmp_path, $imgPathPublic)) {
+                // Appel du repository pour insérer dans la BDD
+                $pizza = AppRepoManager::getRm()->getPizzaRepository()->updatePizzaImage($data_pizza);
+                
+                // On vérifie que la pizza a bien été insérée
+                if (!$pizza) {
+                    $form_result->addError(new FormError('Erreur lors de l\'insertion de la pizza'));
+                }
+                
+                // Redirection vers la liste des pizzas
+                self::redirect('/admin/pizza/list');
+              
+            }
+        }
+    }
 }

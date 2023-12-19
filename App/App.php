@@ -126,11 +126,8 @@ class App implements DatabaseConfigInterface
         $this->router->post('/add-pizza-form', [AdminController::class, 'addPizzaForm']);
         // route pour supprimer une pizza du backoffice
         $this->router->get('/admin/pizza/delete/{id}', [AdminController::class, 'deletePizza']);
-
-
         // route pour modifier une pizza du backoffice
         $this->router->get('/admin/pizza/update/{id}', [AdminController::class, 'updatePizza']);
-
         // route qui receptionne le formulaire de modification du nom d'une pizza
         $this->router->post('/update-pizza/name', [AdminController::class, 'updatePizzaName']);
         // route pour modification image
