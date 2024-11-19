@@ -6,9 +6,8 @@ build-job:       # This job runs in the build stage, which runs first.
 # Add a job to push commits to GitHub
 sync-to-github:
   stage: deploy
-  image: alpine:latest
   before_script:
-    - apk add --no-cache git
+    - sudo apt update && sudo apt install -y git
   script:
     - git remote add github https://richtofen60@gmail.com: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@github.com/SkyBlyvion/PapaPizza.git
     - git push --mirror github
