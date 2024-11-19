@@ -3,7 +3,7 @@ build-job:       # This job runs in the build stage, which runs first.
   script:
     - echo "Bonjour,$GITLAB_USER_LOGIN"
 
-# Add a job to push commits to GitHub
+# Add a job to push commits to  GitHub
 sync-to-github:
   stage: deploy
   script:
