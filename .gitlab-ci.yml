@@ -7,7 +7,10 @@ build-job:       # This job runs in the build stage, which runs first.
 sync-to-github:
   stage: deploy
   script:
-    - git remote add github https://richtofen60%40gmail.com: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@github.com/SkyBlyvion/PapaPizza.git
+    # Check if the remote already exists and update it, otherwise add it
+    - git remote | grep github && git remote set-url github https://richtofen60%40gmail.com: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@github.com/SkyBlyvion/PapaPizza.git || git remote add github https://richtofen60%40gmail.com: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@github.com/SkyBlyvion/PapaPizza.git
+    # Push changes to GitHub
     - git push --mirror github
   only:
     - main # Run this job only for commits pushed to the main branch
+
