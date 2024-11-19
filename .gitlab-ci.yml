@@ -7,11 +7,12 @@ build-job:       # This job runs in the build stage, which runs first.
 sync-to-github:
   stage: deploy
   script:
-    # Check if the 'github' remote exists; update it if it does, or add it otherwise
+    # Add or update the GitHub remote
     - if git remote | grep -q github; then git remote set-url github https://richtofen60%40gmail.com:${GITHUB_TOKEN}@github.com/SkyBlyvion/PapaPizza.git; else git remote add github https://richtofen60%40gmail.com:${GITHUB_TOKEN}@github.com/SkyBlyvion/PapaPizza.git; fi
-    # Push changes to the GitHub repository
-    - git push --mirror github
+    # Push only the current branch to GitHub
+    - git push github main
   only:
-    - main
+    - main # Run this job only for the main branch
+
 
 
