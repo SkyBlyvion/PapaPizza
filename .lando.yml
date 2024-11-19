@@ -14,3 +14,5 @@ services:
       user: admin
       password: admin
       database: papapizza
+    files: 
+    - ./bdd_papapizza.sql
