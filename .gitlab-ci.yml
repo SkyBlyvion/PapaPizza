@@ -1,0 +1,4 @@
+build-job:       # This job runs in the build stage, which runs first.
+  stage: build
+  script:
+    - echo "Bonjour,$GITLAB_USER_LOGIN"
